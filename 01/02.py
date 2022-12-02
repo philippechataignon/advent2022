@@ -12,7 +12,7 @@ if __name__ == '__main__':
         else:
             cum += int(l)
     c.sort(reverse=True)
-    print(c[0] + c[1] + c[2])
+    print(sum(c[:3]))
 
 
 
