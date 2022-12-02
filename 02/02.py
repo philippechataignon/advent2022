@@ -6,7 +6,7 @@ def win(a, b):
         n = 3
     if (a == "A" and b == "Y") or (a == "B" and b == "Z") or (a == "C" and b == "X"):
         n = 6
-    n += ord(b) - 87
+    n += " XYZ".index(b)
     return n
 
 def answer(a, s):
@@ -16,7 +16,6 @@ def answer(a, s):
             "Z": {"A": "Y", "B": "Z", "C": "X"},
         }
     return d[a][s]
-
 
 if __name__ == '__main__':
     f = open("input.txt")
