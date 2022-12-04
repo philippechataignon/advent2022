@@ -6,16 +6,25 @@ def win(a, b):
         n = 3
     if (a == "A" and b == "Y") or (a == "B" and b == "Z") or (a == "C" and b == "X"):
         n = 6
-    n += ord(b) - 87
+    n += " XYZ".index(b)
     return n
+
+def answer(a, s):
+    d = {
+            "X": {"A": "Z", "B": "X", "C": "Y"},
+            "Y": {"A": "X", "B": "Y", "C": "Z"},
+            "Z": {"A": "Y", "B": "Z", "C": "X"},
+        }
+    return d[a][s]
 
 if __name__ == '__main__':
     f = open("input.txt")
-    cum = 0
+    cum1 = 0
+    cum2 = 0
     for ll in f:
         a, b = ll[:-1].split(" ")
-        cum += win(a,b)
-    print(cum)
-
-
-
+        cum1 += win(a,b)
+        c = answer(b, a)
+        cum2 += win(a,c)
+    print(cum1)
+    print(cum2)
