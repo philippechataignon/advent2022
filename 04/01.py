@@ -2,7 +2,8 @@
 
 if __name__ == '__main__':
     f = open("input.txt")
-    cum = 0
+    cum1 = 0
+    cum2 = 0
     for ll in f:
         l,m = ll[:-1].split(",")
         l = [int(x) for x in l.split("-")]
@@ -13,8 +14,8 @@ if __name__ == '__main__':
         b = list(range(*m))
         i = set(a).intersection(set(b))
         if len(i) == len(a) or len(i) == len(b):
-            cum += 1
-    print(cum)
-
-
-
+            cum1 += 1
+        if len(i) > 0:
+            cum2 += 1
+    print(cum1)
+    print(cum2)
