@@ -14,7 +14,7 @@ def move2(s, n, a, b):
     s[b-1] += cc
     return s
 
-if __name__ == '__main__':
+def traite(func):
     f = open("input.txt")
     #f = open("test.txt")
     s = {}
@@ -28,12 +28,15 @@ if __name__ == '__main__':
                 s[i] = []
             if c.strip() != "":
                 s[i].insert(0, c)
-    l = f.readline()
+    f.readline()
     while True:
         l = f.readline()
         if l == "":
             break
         n, a, b = [int(x) for x in parse("move {} from {} to {}", l)]
-        s = move2(s, n, a, b)
-
+        s = func(s, n, a, b)
     print("".join([s[x][-1] for x in s]))
+
+if __name__ == '__main__':
+    traite(move1)
+    traite(move2)
