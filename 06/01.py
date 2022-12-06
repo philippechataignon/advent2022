@@ -8,13 +8,24 @@ def traite(l):
             return i + 4
     return None
 
-def main():
+def traite2(l):
+    for i in range(len(l) - 13):
+        if all_diff(l[i:i+14]):
+            return i + 14
+    return None
+
+def go(func):
     f = open("input.txt")
     cum = 0
     for l in f:
         l = l[:-1]
-        cum += traite(l)
+        r = func(l)
+        cum += r
     print(cum)
+
+def main():
+    go(traite)
+    go(traite2)
 
 if __name__ == '__main__':
     main()
