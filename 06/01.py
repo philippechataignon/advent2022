@@ -2,16 +2,10 @@
 def all_diff(l):
     return len(l) == len(set(l))
 
-def traite(l):
-    for i in range(len(l) - 3):
-        if all_diff(l[i:i+4]):
-            return i + 4
-    return None
-
-def traite2(l):
-    for i in range(len(l) - 13):
-        if all_diff(l[i:i+14]):
-            return i + 14
+def traite(l, d):
+    for i in range(len(l) - d + 1):
+        if all_diff(l[i:i+d]):
+            return i + d
     return None
 
 def go(func):
@@ -24,8 +18,8 @@ def go(func):
     print(cum)
 
 def main():
-    go(traite)
-    go(traite2)
+    go(lambda x: traite(x, 4))
+    go(lambda x: traite(x, 14))
 
 if __name__ == '__main__':
     main()
