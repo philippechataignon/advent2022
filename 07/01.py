@@ -1,42 +1,45 @@
 #!/usr/bin/env python3
 from parse import parse
+from collections import defaultdict
 
 def main():
-    #f = open("input.txt")
-    f = open("test.txt")
+    # f = open("input.txt")
+    f = open("input.txt")
     wd = []
-    sz = {}
+    # sz = defaultdict(int)
+    sz = {('/',): 0}
     for l in f:
         l = l[:-1]
         # print(l)
-        if l[0] == "$": # command
-            if l[2:4] == "ls":
-                continue
-            else:
-                cmd, param = parse("$ {} {}", l)
-                print(cmd, param)
-                if param == "..":
-                    wd.pop()
-                elif param == "/":
-                    continue
-                else:
-                    wd.append(param)
-                print(wd)
-        elif l[:3] == "dir":
+        if l[:4] == "$ ls":
             continue
+        elif l[:4] == "$ cd":
+            param = l[5:]
+            if param == "..":
+                wd.pop()
+            else:
+                wd.append(param)
+            print(wd)
+            twd = tuple(wd)
+        elif l[:3] == "dir":
+            param = l[4:]
+            if twd + (param,) not in sz:
+                sz[twd + (param,)] = 0
         else:
-            size, name = parse("{:d} {}", l)
-            print(size, name)
-            for d in wd:
-                if d not in sz:
-                    sz[d] = 0
-                sz[d] += size
-    print(sz)
-    cum = 0
-    for v in sz.values():
-        if v <= 100000:
-            cum += v
-    print(cum)
+            size, _ = parse("{:d} {}", l)
+            sz[tuple(wd)] += size
+    print(sz, len(sz))
+    for k in sorted(sz, key=len, reverse=True):
+        if k[:-1] in sz:
+            sz[k[:-1]] += sz[k]
+        else:
+            sz[k[:-1]] = sz[k]
+
+    print(sum([v for v in sz.values() if v < 100_000]))
+
+    g = open("01.txt", "w")
+    for k,v in sz.items():
+        print("/".join(k), v, file=g)
 
 if  __name__ == '__main__':
     main()
