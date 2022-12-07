@@ -10,7 +10,6 @@ def main():
     sz = {('/',): 0}
     for l in f:
         l = l[:-1]
-        # print(l)
         if l[:4] == "$ ls":
             continue
         elif l[:4] == "$ cd":
@@ -19,7 +18,6 @@ def main():
                 wd.pop()
             else:
                 wd.append(param)
-            print(wd)
             twd = tuple(wd)
         elif l[:3] == "dir":
             param = l[4:]
@@ -28,7 +26,6 @@ def main():
         else:
             size, _ = parse("{:d} {}", l)
             sz[tuple(wd)] += size
-    print(sz, len(sz))
     for k in sorted(sz, key=len, reverse=True):
         if k[:-1] in sz:
             sz[k[:-1]] += sz[k]
@@ -37,9 +34,10 @@ def main():
 
     print(sum([v for v in sz.values() if v < 100_000]))
 
-    g = open("01.txt", "w")
-    for k,v in sz.items():
-        print("/".join(k), v, file=g)
+    free = 70_000_000 - sz[('/',)]
+    needed = 30_000_000 - free
+
+    print(min([v for v in sz.values() if v > needed]))
 
 if  __name__ == '__main__':
     main()
