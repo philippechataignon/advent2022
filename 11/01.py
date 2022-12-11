@@ -11,6 +11,7 @@ from parse import parse
 
 class Monkey:
     def __init__(self, mks, items, oper, div, mt, mf):
+        self.mks = mks
         self.items = items
         self.oper = oper
         self.div = div
@@ -19,28 +20,29 @@ class Monkey:
         self.count = 0
 
     def __str__(self):
-        return f"{self.div}: {self.items} -> {self.count}"
+        return f"{self.div}: {self.items}  #{self.count}"
 
     def calc(self, old):
         return eval(self.oper)
 
     def get(self, num):
         self.items.append(num)
-        self.count += 1
 
     def inspect(self):
         while self.items:
-            w = calc(item) // 3
+            self.count += 1
+            item = self.items.pop(0)
+            w = self.calc(item) // 3
             m = w % self.div
 
             if m == 0:
-                mks[self.mt].get(self.items.pop(0))
+                self.mks[self.mt].get(w)
             else:
-                mks[self.mf].get(self.items.pop(0))
+                self.mks[self.mf].get(w)
 
 def main():
-    f = open("test.txt")
-    # f = open("input.txt")
+    # f = open("test.txt")
+    f = open("input.txt")
     mks = []
     while True:
         l = f.readline()
@@ -60,8 +62,14 @@ def main():
         if l == "":
             break
 
-    for mk in mks:
-        print(mk)
+    print([str(mk) for mk in mks])
+    for round in range(20):
+        for mk in mks:
+            mk.inspect()
+        print([str(mk) for mk in mks])
+
+    lp = sorted([mk.count for mk in mks], reverse=True)
+    print(lp[0] * lp[1])
 
 if  __name__ == '__main__':
     main()
